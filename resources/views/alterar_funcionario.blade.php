@@ -9,6 +9,17 @@
     <meta name="keywords" content="bootstrap, bootstrap admin template, admin theme, admin dashboard, dashboard template, admin template, responsive" />
     <meta name="author" content="Codedthemes" />
     <link rel="icon" href="assets/images/favico.png" type="image/x-icon">
+    <script type="text/javascript">
+            function habilitar(valor) {
+                var x = document.getElementById('tipo_plantao'); 
+                var y = x.options[x.selectedIndex].text;
+                if(y == "12x60"){ 
+                    document.getElementById('escala').disabled = true;
+                } else {
+                    document.getElementById('escala').disabled = false;
+                }
+            }
+    </script>
 </head>
 
 <body>
@@ -205,26 +216,35 @@
 																   </select>
 																   </td>
 																   <td>
-																   <select id="tipo_plantao" name="tipo_plantao" class="form-control">
+																   <select id="tipo_plantao" name="tipo_plantao" class="form-control" onchange="habilitar('sim')">
 																	   @if($funcionario[0]->tipo_plantao == "D")
 																	   <option id="tipo_plantao" name="tipo_plantao" value="D" selected>DIURNO  (07/19h)</option>
 																	   <option id="tipo_plantao" name="tipo_plantao" value="N">NOTURNO (19/07h)</option>
-																	   @elseif($funcionario[0]->tipo_plantao == "N")
+																	   <option id="tipo_plantao" name="tipo_plantao" value="12x60">12x60</option>
+                                                                       @elseif($funcionario[0]->tipo_plantao == "N")
 																	   <option id="tipo_plantao" name="tipo_plantao" value="D">DIURNO  (07/19h)</option>
 																	   <option id="tipo_plantao" name="tipo_plantao" value="N" selected>NOTURNO (19/07h)</option>
+                                                                       <option id="tipo_plantao" name="tipo_plantao" value="12x60">12x60</option>
+                                                                       @elseif($funcionario[0]->tipo_plantao == "12x60")
+                                                                       <option id="tipo_plantao" name="tipo_plantao" value="D">DIURNO  (07/19h)</option>
+																	   <option id="tipo_plantao" name="tipo_plantao" value="N">NOTURNO (19/07h)</option>
+                                                                       <option id="tipo_plantao" name="tipo_plantao" value="12x60" selected>12x60</option>
 																	   @endif
 																	 </select>
 																   </td>
 																   <td>
-																   <select id="escala" name="escala" class="form-control">
+																    <select id="escala" name="escala" class="form-control" disabled="true">
 																	   @if($funcionario[0]->escala == "I")
 																	   <option id="escala" name="escala" value="I" selected>ÍMPAR </option>
 																	   <option id="escala" name="escala" value="P">PAR </option>
 																	   @elseif($funcionario[0]->escala == "P")
 																	   <option id="escala" name="escala" value="I">ÍMPAR </option>
 																	   <option id="escala" name="escala" value="P" selected>PAR </option>
-																	   @endif
-																	 </select>
+                                                                       @elseif($funcionario[0]->escala == "")
+																	   <option id="escala" name="escala" value="I">ÍMPAR </option>
+																	   <option id="escala" name="escala" value="P">PAR </option>
+                                                                       @endif
+																	</select>
 																   </td>
 																  </tr>
 																  <tr>

@@ -24,7 +24,7 @@ class FrequenciaEscalaExport implements FromCollection, FromView
 	public function view(): View
     {
         return view('exports.teste', [
-            'frequencia_escala' => Frequencia_Escala::where('escala_id', $this->id)->get();	
+            'frequencia_escala' => Frequencia_Escala::where('escala_id', $this->id)->get()
         ]);
     }
 	

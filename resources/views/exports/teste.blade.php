@@ -2,7 +2,7 @@
     <thead>
     <tr>
 	    <th>Centro de Custo</th>
-		<th>userionário</th>
+		<th>funcionário</th>
 		<th>Cargo</th>
 		<th>Plantão</th>
         <th>Dia1</th>

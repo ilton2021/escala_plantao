@@ -164,22 +164,35 @@
                                                             <table class="table table-hover m-b-0 without-header">
                                                                 <thead>
 																  <tr>
-																	<td width="200px"> MÊS/ANO: </td>
-																	<td> CENTRO DE CUSTO: </td>
-																	<td>  </td>
-																	<td>  </td>
-																	<td>  </td>
+																	<td width="150px"> MÊS/ANO </td>
+																	<td> CENTRO DE CUSTO </td>
+																	<td> ADICIONAR ESCALA </td>
+																	<td> VISUALIZAR ESCALA </td>
+																	<td> FREQUÊNCIA ESCALA </td>
+                                                                    <td><center> EXCLUIR </center></td>
 																  </tr>
 																</thead>
 																<tbody>
 																@foreach($escalas as $escala)
 																  <tr>
 																   <td>{{ $escala->mes }}  {{ $escala->ano }}</td>
-																   <td>{{ $escala->centro_custo }}</td>
-																   <td><a href="{{ route('novaEscala', $escala->id) }}" class="btn btn-sm btn-info">ADICIONAR ESCALA</a></td>
-																   <td><a href="{{ route('visualizarEscala', $escala->id) }}" class="btn btn-sm btn-dark">VISUALIZAR ESCALA</a></td>
-																   <td><a href="{{ route('frequenciaEscala', $escala->id) }}" class="btn btn-sm btn-warning">FREQUÊNCIA ESCALA</a></td>
-																   <td><a href="{{ route('excluirEscala', $escala->id) }}" class="btn btn-sm btn-danger">EXCLUIR</a></td>
+																   <td><center>{{ $escala->centro_custo }}</center></td>
+																   @if($escala->centro_custo == "UTI")
+                                                                   <td><center><a href="{{ route('novaEscalaUTI', $escala->id) }}" class="btn btn-sm btn-info">ADD ESCALA</center></a></td>
+                                                                   @elseif($escala->centro_custo == "ENFERMAGEM")    
+																   <td><center><a href="{{ route('novaEscala', $escala->id) }}" class="btn btn-sm btn-info">ADD ESCALA</center></a></td>
+                                                                   @endif
+                                                                   @if($escala->centro_custo == "ENFERMAGEM")
+																   <td><center><a href="{{ route('visualizarEscala', $escala->id) }}" class="btn btn-sm btn-dark">VISUALIZAR</center></a></td>
+                                                                   @else
+                                                                   <td> </td>
+                                                                   @endif
+                                                                   @if($escala->centro_custo == "UTI")
+                                                                   <td><center><a href="{{ route('frequenciaEscalaUTI', $escala->id) }}" class="btn btn-sm btn-warning">ADD FREQUÊNCIA</center></a></td>                 
+                                                                   @else
+                                                                   <td><center><a href="{{ route('frequenciaEscala', $escala->id) }}" class="btn btn-sm btn-warning">ADD FREQUÊNCIA</center></a></td>
+                                                                   @endif
+                                                                   <td><a href="{{ route('excluirEscala', $escala->id) }}" class="btn btn-sm btn-danger">EXCLUIR</a></td>
 																  </tr>
 																@endforeach
 															    </tbody>

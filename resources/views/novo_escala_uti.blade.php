@@ -2,24 +2,14 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <title>Novo Funcionário</title>
+    <title>Nova Escala</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="keywords" content="bootstrap, bootstrap admin template, admin theme, admin dashboard, dashboard template, admin template, responsive" />
     <meta name="author" content="Codedthemes" />
     <link rel="icon" href="assets/images/favico.png" type="image/x-icon">
-    <script type="text/javascript">
-            function habilitar(valor) {
-                var x = document.getElementById('tipo_plantao'); 
-                var y = x.options[x.selectedIndex].text;
-                if(y == "12x60"){ 
-                    document.getElementById('escala').disabled = true;
-                } else {
-                    document.getElementById('escala').disabled = false;
-                }
-            }
-    </script>
+						
 </head>
 
 <body>
@@ -113,7 +103,7 @@
                                 <div class="row align-items-center">
                                     <div class="col-md-8">
                                         <div class="page-header-title">
-                                            <h5 class="m-b-10">Novo Funcionário</h5>
+                                            <h5 class="m-b-10">Nova Escala</h5>
                                             <p class="m-b-0">Bem-vindo à Escala de Plantão</p>
                                         </div>
                                     </div>
@@ -122,7 +112,7 @@
                                             <li class="breadcrumb-item">
                                                 <a href="{{ url('/') }}"> <i class="fa fa-home"></i> </a>
                                             </li>
-                                            <li class="breadcrumb-item"><a href="{{ route('novoFunc') }}">Novo Funcionário</a>
+                                            <li class="breadcrumb-item"><a href="{{ route('novaEscala', $escala[0]->id) }}">Nova Escala</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -131,12 +121,12 @@
                         </div>
                         
 						<!-- Frame Principal -->
-						<div class="pcoded-inner-content">
+						<div class="pcoded-inner-content" style="width: 100%; overflow: scroll;">
                             <div class="main-body">
                                 <div class="page-wrapper">
                                     <div class="page-body">
                                         <div class="row">
-                                           <div class="col-xl-8 col-md-12">
+                                           <div class="col-xl-30 col-md-20">
 										      @if ($errors->any())
 											  <div class="alert alert-danger">
 												<ul>
@@ -146,10 +136,10 @@
 												</ul>
 											  </div>
 											  @endif 
-											  <a href="{{ route('cadastroFunc') }}" class="btn btn-warning btn-sm">Voltar</a>
+											  <a href="{{ route('cadastroEscala') }}" class="btn btn-warning btn-sm">Voltar</a>
                                              	<div class="card table-card">
                                                  	<div class="card-header">
-                                                        <h5>Novo Funcionário:</h5>
+                                                        <h5>Nova Escala:</h5>
                                                         <div class="card-header-right">
                                                             <ul class="list-unstyled card-option">
                                                                 <li><i class="fa fa fa-wrench open-card-option"></i></li>
@@ -161,70 +151,57 @@
                                                     </div>
                                                     <div class="card-block">
                                                         <div class="table-responsive">
-														 <form action="{{\Request::route('storeFunc')}}" method="post">
+														@if ($errors->any())
+														  <div class="alert alert-success">
+															<ul>
+																@foreach ($errors->all() as $error)
+																	<li>{{ $error }}</li>
+																@endforeach
+															</ul>
+														  </div>
+														  @endif 
+														 <form action="{{\Request::route('novaEscalaUTI_novo', $escala[0]->id)}}" method="POST">
 														 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                            <table class="table table-hover m-b-0 without-header">
-                                                                <thead>
-																  <tr>
-																 	<td colspan="2"> NOME: </td>
-																	<td> CARGO: </td>
-																  </tr>
-																  <tr>
-																 	<td colspan="2"><input type="text" class="form-control" id="nome" name="nome" value="" required="true" /></td>
-																	<td>
-																	 <select id="cargo" name="cargo" class="form-control">
-																	   <option id="cargo" name="cargo" value="GERENTE">GERENTE</option>
-																	   <option id="cargo" name="cargo" value="COORDENACAO">COORDENAÇÃO</option>
-																	   <option id="cargo" name="cargo" value="SUPERVISAO">SUPERVISÃO</option>
-																	   <option id="cargo" name="cargo" value="TECNICO">TÉCNICO</option>
-																	   <option id="cargo" name="cargo" value="ENFERMEIRO">ENFERMEIRO</option>
-																	   <option id="cargo" name="cargo" value="RPA">RPA</option>
-																	 </select>
-																	</td>
-																  </tr>
-																  <tr>
-																   <td>COREN:</td>
-																   <td>MATRÍCULA: </td>
-																  </tr>
-																  <tr>
-																   <td><input type="text" class="form-control" id="coren" name="coren" value="" /></td>
-																   <td><input type="text" class="form-control" id="matricula" name="matricula" value="" required="true" /></td>
-																  </tr>
-																  <tr>
-																   <td>CENTRO DE CUSTO:</td>
-																   <td>TIPO PLANTÃO: </td>
-																   <td>ESCALA:</td>
-																  </tr>
-																  <tr>
-																   <td>
-																   <select id="centro_custo_id" name="centro_custo_id" class="form-control">
-																   @foreach($centro_custo as $cc)
-																     <option id="centro_custo_id" name="centro_custo_id" value="<?php echo $cc->id; ?>">{{ $cc->descricao }}</option>
+                                                            <table class="table table-hover m-b-0 without-header" style="width:500px">
+                                                                  <tr>
+																   <td style="width:200px"> Mês: 
+																   <select id="mes" name="mes" readonly="true" class="form-control" width="300px">
+																   @foreach($escala as $es)  
+																	 <option id="mes" name="mes" value="<?php echo $es->mes ?>">{{ $es->mes }}</option>
 																   @endforeach
 																   </select>
 																   </td>
-																   <td>
-																   <select id="tipo_plantao" name="tipo_plantao" class="form-control" onchange="habilitar('sim')">
-																	   <option id="tipo_plantao" name="tipo_plantao" value="D">DIURNO  (07/19h)</option>
-																	   <option id="tipo_plantao" name="tipo_plantao" value="N">NOTURNO (19/07h)</option>
-                                                                       <option id="tipo_plantao" name="tipo_plantao" value="12x60">12x60</option>
-																	 </select>
-																   </td>
-																   <td>
-																   <select id="escala" name="escala" class="form-control">
-                                                                       <option id="escala" name="escala" value="I">ÍMPAR </option>
-																	   <option id="escala" name="escala" value="P">PAR </option>
-																	 </select>
+																   <td width="200px"> Ano: 
+																    <select id="ano" name="ano" readonly="true" class="form-control" width="200px">
+																	 @foreach($escala as $es)
+																	 <option id="ano" name="ano" value="<?php echo $es->ano ?>">{{ $es->ano }}</option>
+																	 @endforeach
+																	</select>
 																   </td>
 																  </tr>
+															</table>
+
+                                                            <table class="table table-hover m-b-0 without-header">
+                                                                <thead>
 																  <tr>
-																   <td colspan="3"> Observação: <textarea class="form-control" id="observacao" name="observacao" rows="10" cols="100" value=""></textarea> </td>
+																	<td> DESCRIÇÃO: </td>
+																	<td>  </td>
 																  </tr>
+																</thead>
+																<tbody>
+																<?php $qtd = sizeof($centro_custo); ?>
+																@if($qtd > 0)
+																 @foreach($centro_custo as $cc)
 																  <tr>
-																   <td align="right" colspan="3"><input type="submit" class="btn btn-success btn-sm" style="margin-top: 10px;" value="Salvar" id="Salvar" name="Salvar" /> </td>
+																   <td>{{ $cc->descricao }}</td>
+																   <td><a href="{{ route('novaEscalaUTI_novo', array($escala[0]->id,$cc->id)) }}" class="btn btn-sm btn-success">CADASTRAR</a></td>
+                                                                   <td><a href="{{ route('visualizarEscalaUTI', array($escala[0]->id,$cc->id)) }}" class="btn btn-sm btn-dark">VISUALIZAR</a></td>
 																  </tr>
-															    </thead>
+																 @endforeach
+																@endif
+                                                                </tbody>
                                                             </table>
+															
 														 </form>
                                                         </div>
                                                     </div>

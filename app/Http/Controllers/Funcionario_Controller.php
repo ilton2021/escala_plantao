@@ -80,8 +80,7 @@ class Funcionario_Controller extends Controller
 			'cargo' 		  => 'required|max:255',
 			'matricula' 	  => 'required|max:255',
 			'centro_custo_id' => 'required|max:255',
-			'tipo_plantao' 	  => 'required|max:255',
-			'escala' 		  => 'required|max:255',
+			'tipo_plantao' 	  => 'required|max:255'
 		]);
 		if ($validator->fails()) {
 			$text = true;
@@ -95,6 +94,10 @@ class Funcionario_Controller extends Controller
 			} else {
 				$input['centro_custo'] = "UTI";
 			}
+			$tp = $input['tipo_plantao'];
+			if($tp == "12x60"){
+				$input['escala'] = "";
+			} 
 			$funcionario = Funcionario::create($input);
 			$funcionario = Funcionario::all();
 			$text = true;
@@ -112,8 +115,7 @@ class Funcionario_Controller extends Controller
 			'cargo' 		  => 'required|max:255',
 			'matricula' 	  => 'required|max:255',
 			'centro_custo_id' => 'required|max:255',
-			'tipo_plantao' 	  => 'required|max:255',
-			'escala' 		  => 'required|max:255',
+			'tipo_plantao' 	  => 'required|max:255'
 		]);
 		if ($validator->fails()) {
 			$text = true;
@@ -122,8 +124,11 @@ class Funcionario_Controller extends Controller
                   ->withInput(session()->flashInput($request->input()));
 		} else {
 			$funcionario = Funcionario::find($id); 
+			if($funcionario['tipo_plantao'] == "12x60"){
+				$input['escala'] = "";
+			}
 			$funcionario->update($input);	
-			$funcionario = Funcionario::all();
+			$funcionario = Funcionario::paginate(50);
 			$text = true;
 			\Session::flash('mensagem', ['msg' => 'Funcionário alterado com sucesso!!','class'=>'green white-text']);		
 			return view('cadastro_funcionario', compact('funcionario','text','centro_custo'));
@@ -133,7 +138,7 @@ class Funcionario_Controller extends Controller
 	public function deleteFunc($id, Request $request)
 	{
 		Funcionario::find($id)->delete();  
-		$funcionario  = Funcionario::all();
+		$funcionario  = Funcionario::paginate(50);
 		$centro_custo = CentroCusto::all();
 		$text 		  = true;
 		\Session::flash('mensagem', ['msg' => 'Funcionário excluído com sucesso!!','class'=>'green white-text']);		

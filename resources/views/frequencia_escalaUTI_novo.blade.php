@@ -208,7 +208,7 @@
                                     <div class="page-body">
                                         <div class="row">
                                            <div class="col-xl-30 col-md-20">
-										      <a href="{{ route('cadastroEscala') }}" class="btn btn-warning btn-sm">Voltar</a>
+										      <a href="javascript:history.back();" class="btn btn-warning btn-sm">Voltar</a>
                                              	<div class="card table-card">
                                                  	<div class="card-header">
                                                         <h5>Frequência da Escala:</h5>
@@ -234,7 +234,7 @@
 														  @endif
 														 <?php $qtd = sizeof($escala); ?>
 														 @if($qtd > 0)
-														 <form action="{{\Request::route('storeFrequencia', $idEs)}}" method="POST">
+														 <form action="{{\Request::route('storeFrequenciaEscalaUTI_novo', $idEs)}}" method="POST">
 													     @endif
 														 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                             <table class="table table-hover m-b-0 without-header" style="width:500px">
@@ -243,7 +243,6 @@
 																   <select readonly="true" id="mes" name="mes" class="form-control" width="300px">
 																   @foreach($escala as $es)  
 																	 <option id="mes" name="mes" value="<?php echo $es->mes ?>">{{ $es->mes }}</option>
-																	 <?php break; ?>
 																   @endforeach
 																   </select>
 																   </td>
@@ -251,7 +250,6 @@
 																    <select readonly="true" id="ano" name="ano" class="form-control" width="200px">
 																	 @foreach($escala as $es)
 																	 <option id="ano" name="ano" value="<?php echo $es->ano ?>">{{ $es->ano }}</option>
-																	 <?php break; ?>
 																	 @endforeach
 																	</select>
 																   </td>											   
@@ -261,7 +259,7 @@
 															@if($qtd > 0)
 															<table class="table table-hover m-b-0 without-header">	  
 																<tr>
-																 <td colspan="3">FUNCIONÁRIO:</td>
+																 <td colspan="3">FUNCIONÁRIOS:</td>
 																</tr>
 																<tr>
 																  <td></td>
@@ -272,17 +270,13 @@
 																   <td><center>{{ $a }} </center></td>
 																  <?php } ?>
 																 <?php $b = 0; ?>
+																</tr>  
 																@foreach($escala as $func) <?php $b += 1; ?>
-																  </tr> 
 																  <tr>
-																    @if($func->centro_custo == "ENFERMAGEM")
-																    <td>{{ $func->centro_custo }}</td>
-																	@else
-																	<td>{{ $func->centro_custo .$func->centro_custo_id }}</td>
-																	@endif
-																    <td hidden>
-																	 <input type="text" style="width:350px" class="form-control" id="centro_custo_id_<?php echo $b ?>" name="centro_custo_id_<?php echo $b ?>" value="<?php echo $func->centro_custo_id; ?>" />
+																    <td><p style="width:50">UTI {{ $func->centro_custo  }}</p></td>
+																	<td hidden>
 																	 <input type="text" style="width:350px" class="form-control" id="centro_custo" name="centro_custo" value="<?php echo $func->centro_custo; ?>" />
+																	 <input type="text" style="width:350px" class="form-control" id="centro_custo_id" name="centro_custo_id" value="<?php echo $func->centro_custo; ?>" />
 																	 <input type="text" style="width:350px" class="form-control" id="escala_id" name="escala_id" value="<?php echo $idEs; ?>" />
 																	</td>
 																	<td hidden>

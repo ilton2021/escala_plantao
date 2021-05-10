@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <title>Nova Escala</title>
+    <title>Nova Escala UTI</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -40,7 +40,7 @@
 						}
            <?php    } ?>  
 		    } 
-    </script>		
+    </script>					
 </head>
 
 <body>
@@ -167,7 +167,7 @@
 												</ul>
 											  </div>
 											  @endif 
-											  <a href="{{ route('cadastroEscala') }}" class="btn btn-warning btn-sm">Voltar</a>
+											  <a href="javascript:history.back();" class="btn btn-warning btn-sm">Voltar</a>
                                              	<div class="card table-card">
                                                  	<div class="card-header">
                                                         <h5>Nova Escala:</h5>
@@ -191,27 +191,28 @@
 															</ul>
 														  </div>
 														  @endif 
-														 <form action="{{\Request::route('storeEscala', $escala[0]->id)}}" method="POST">
+														 <form action="{{\Request::route('storeEscalaUTI', $escala[0]->id)}}" method="POST">
 														 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                             <table class="table table-hover m-b-0 without-header" style="width:500px">
                                                                   <tr>
-																   <td style="width:300px"> Mês: 
-																   <select id="mes" name="mes" class="form-control" width="300px">
+																   <td style="width:200px"> Mês: 
+																   <select id="mes" name="mes" readonly="true" class="form-control" width="300px">
 																   @foreach($escala as $es)  
 																	 <option id="mes" name="mes" value="<?php echo $es->mes ?>">{{ $es->mes }}</option>
 																   @endforeach
 																   </select>
 																   </td>
 																   <td width="200px"> Ano: 
-																    <select id="ano" name="ano" class="form-control" width="200px">
+																    <select id="ano" name="ano" readonly="true" class="form-control" width="200px">
 																	 @foreach($escala as $es)
 																	 <option id="ano" name="ano" value="<?php echo $es->ano ?>">{{ $es->ano }}</option>
 																	 @endforeach
 																	</select>
-																   </td>											   
+																   </td>
 																  </tr>
 															</table>
-															<?php $qtd = sizeof($funcionarios); ?>
+
+                                                            <?php $qtd = sizeof($funcionarios); ?>
 															@if($qtd > 0)
 															<table class="table table-hover m-b-0 without-header">	  
 																<tr>
@@ -354,12 +355,10 @@
 																@endif
 															   </tr>
 															  </table>
-															  <br>
-																  <tr> 
-																   <td><p align="right"><input type="submit" class="btn btn-success btn-sm" style="margin-top: 10px;" value="Salvar" id="Salvar" name="Salvar" /> </p></td>
-																  </tr>
-															    </thead>
-                                                            </table>
+                                                              <br>
+																<tr> 
+																  <td><p align="right"><input type="submit" class="btn btn-success btn-sm" style="margin-top: 10px;" value="Salvar" id="Salvar" name="Salvar" /> </p></td>
+																</tr>
 														 </form>
                                                         </div>
                                                     </div>

@@ -110,8 +110,10 @@
                                         <ul class="breadcrumb">
                                             <li class="breadcrumb-item">
                                                 <a href="{{ url('/') }}"> <i class="fa fa-home"></i> </a>
-                                            </li>
+                                            </li> <?php $qtd = sizeof($escala); ?>
+											@if($qtd > 0)
                                             <li class="breadcrumb-item"><a href="{{ route('visualizarEscala', $escala[0]->escala_id) }}">Visualizar Escala</a>
+											@endif
                                             </li>
                                         </ul>
                                     </div>
@@ -126,7 +128,7 @@
                                     <div class="page-body">
                                         <div class="row">
                                            <div class="col-xl-30 col-md-20">
-										     <a href="{{ route('cadastroEscala') }}" class="btn btn-warning btn-sm">Voltar</a>
+										     <a href="javascript:history.back();" class="btn btn-warning btn-sm">Voltar</a>
                                              	<div class="card table-card">
                                                  	<div class="card-header">
                                                         <h5>Visualizar Escala:</h5>
