@@ -80,21 +80,21 @@ class Escala_Controller extends Controller
 		$escala = Escala_Mes_Ano::where('id',$id)->get();
 		$centro_custo = CentroCusto::whereIn('id',[1,2,3,4,5,6,7,8,9,10])->get();
 		$funcionarios = Funcionario::where('centro_custo', 'UTI')->orderBy('centro_custo_id','ASC')->get();
-		
 		return view('novo_escala_uti', compact('funcionarios','centro_custo','escala'));
 	}
-
 
 	public function novaEscalaUTI_novo($id, $cc)
 	{
 		$escala = Escala_Mes_Ano::where('id',$id)->get();
 		$centro_custo = CentroCusto::where('id',$cc)->get();
 		$funcionarios = Funcionario::where('centro_custo_id', $cc)->orderBy('centro_custo_id','ASC')->get();
-		return view('novo_escala_uti_novo', compact('funcionarios','centro_custo','escala'));
+		$centro_c = $cc;
+		return view('novo_escala_uti_novo', compact('funcionarios','centro_custo','escala','centro_c'));
 	}
 	
 	public function storeEscalaUTI(Request $request, $id, $cc){
-		$input = $request->all();
+		$input = $request->all(); 
+		$cc = $input['centro_custo_id'];
 		$escala = Escala_Mes_Ano::where('id',$id)->get();
 		$funcionarios = Funcionario::where('centro_custo_id', $cc)->orderBy('centro_custo_id','ASC')->get();
 		$centro_custo = CentroCusto::all();			
@@ -108,11 +108,11 @@ class Escala_Controller extends Controller
 				  ->withErrors($validator)
                   ->withInput(session()->flashInput($request->input()));
 		} else {
-			$qtd1 = sizeof($funcionarios); 
-			for($a = 1; $a < $qtd1; $a++) { 
+			$qtd1 = sizeof($funcionarios);  
+			for($a = 1; $a <= $qtd1; $a++) { 
 				$tp = $input['tipo_plantao_'.$a];
 				$input['escala_id'] = $id;
-				$input['centro_custo'] = $input['centro_custo_'.$a]; $input['funcionario_id'] = $input['funcionario_id_'.$a];
+				$input['funcionario_id'] = $input['funcionario_id_'.$a];
 				if(!empty($input['dia1_'.$a])){$input['dia1'] = $tp;}else{$input['dia1'] = "";} if(!empty($input['dia2_'.$a])){$input['dia2'] = $tp;}else{$input['dia2'] = "";}
 				if(!empty($input['dia3_'.$a])){$input['dia3'] = $tp;}else{$input['dia3'] = "";} if(!empty($input['dia4_'.$a])){$input['dia4'] = $tp;}else{$input['dia4'] = "";}
 				if(!empty($input['dia5_'.$a])){$input['dia5'] = $tp;}else{$input['dia5'] = "";} if(!empty($input['dia6_'.$a])){$input['dia6'] = $tp;}else{$input['dia6'] = "";}

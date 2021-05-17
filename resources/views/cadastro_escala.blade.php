@@ -179,7 +179,7 @@
 																   <td><center>{{ $escala->centro_custo }}</center></td>
 																   @if($escala->centro_custo == "UTI")
                                                                    <td><center><a href="{{ route('novaEscalaUTI', $escala->id) }}" class="btn btn-sm btn-info">ADD ESCALA</center></a></td>
-                                                                   @elseif($escala->centro_custo == "ENFERMAGEM")    
+                                                                   @else
 																   <td><center><a href="{{ route('novaEscala', $escala->id) }}" class="btn btn-sm btn-info">ADD ESCALA</center></a></td>
                                                                    @endif
                                                                    @if($escala->centro_custo == "ENFERMAGEM")

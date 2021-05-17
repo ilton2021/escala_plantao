@@ -42,29 +42,25 @@ Route::get('/escala/cadastro','App\Http\Controllers\Escala_Controller@cadastroEs
 Route::get('/escala/novaEscalaMesAno','App\Http\Controllers\Escala_Controller@novaEscalaMesAno')->name('novaEscalaMesAno');
 Route::post('/escala/novaEscalaMesAno','App\Http\Controllers\Escala_Controller@storeEscalaMesAno')->name('storeEscalaMesAno');
 Route::get('/escala/visualizarEscala/{id}','App\Http\Controllers\Escala_Controller@visualizarEscala')->name('visualizarEscala');
-
 Route::get('/escala/novaEscala/{id}','App\Http\Controllers\Escala_Controller@novaEscala')->name('novaEscala');
 Route::post('/escala/novaEscala/{id}','App\Http\Controllers\Escala_Controller@storeEscala')->name('storeEscala');
-
 Route::get('/escala/novaEscalaUTI/{id}','App\Http\Controllers\Escala_Controller@novaEscalaUTI')->name('novaEscalaUTI');
 Route::get('/escala/novaEscalaUTI/{id}/novo/{id_escala}','App\Http\Controllers\Escala_Controller@novaEscalaUTI_novo')->name('novaEscalaUTI_novo');
 Route::post('/escala/novaEscalaUTI/{id}/novo/{id_escala}','App\Http\Controllers\Escala_Controller@storeEscalaUTI')->name('storeEscalaUTI');
 Route::get('/escala/visualizarEscalaUTI/{id}/{id_escala}','App\Http\Controllers\Escala_Controller@visualizarEscalaUTI')->name('visualizarEscalaUTI');
-
 Route::get('/escala/excluirEscala/{id}','App\Http\Controllers\Escala_Controller@excluirEscala')->name('excluirEscala');
 Route::post('/escala/excluirEscala/{id}','App\Http\Controllers\Escala_Controller@deleteEscala')->name('deleteEscala');
+//frequencia
 Route::get('/escala/frequenciaEscala/{id}','App\Http\Controllers\Frequencia_Controller@frequenciaEscala')->name('frequenciaEscala');
-
 Route::post('/escala/frequenciaEscala/{id}','App\Http\Controllers\Frequencia_Controller@storeFrequencia')->name('storeFrequencia');
-
-Route::get('/escala/frequenciaEscalaRH/cadastro','App\Http\Controllers\Frequencia_Controller@frequenciaEscalaRH_cadastro')->name('frequenciaEscalaRH_cadastro');
-Route::get('/escala/frequenciaEscalaRH/{id}','App\Http\Controllers\Frequencia_Controller@frequenciaEscalaRH')->name('frequenciaEscalaRH');
-
 Route::get('/escala/frequenciaEscalaUTI/{id}','App\Http\Controllers\Frequencia_Controller@frequenciaEscalaUTI')->name('frequenciaEscalaUTI');
 Route::get('/escala/frequenciaEscalaUTI/{id}/novo/{id_escala}','App\Http\Controllers\Frequencia_Controller@frequenciaEscalaUTI_novo')->name('frequenciaEscalaUTI_novo');
-Route::post('/escala/frequenciaEscalaUTI/{id}/novo/{id_escala}','App\Http\Controllers\Frequencia_Controller@storeFrequenciaEscalaUTI_novo')->name('storeFrequenciaEscalaUTI_novo');
+Route::get('/escala/frequenciaEscalaUTI/{id}/novo/{id_escala}/dia/{dia}','App\Http\Controllers\Frequencia_Controller@frequenciaEscalaUTI_novo_dia')->name('frequenciaEscalaUTI_novo_dia');
+Route::post('/escala/frequenciaEscalaUTI/{id}/novo/{id_escala}/dia/{dia}','App\Http\Controllers\Frequencia_Controller@storeFrequenciaEscalaUTI_novo')->name('storeFrequenciaEscalaUTI_novo');
 Route::get('/escala/frequenciaEscalaUTI/{id}/visualizarFrequenciaUTI/{id_escala}','App\Http\Controllers\Frequencia_Controller@visualizarFrequenciaUTI')->name('visualizarFrequenciaUTI');
-
+//frequenciaRH
+Route::get('/escala/frequenciaEscalaRH/cadastro','App\Http\Controllers\Frequencia_Controller@frequenciaEscalaRH_cadastro')->name('frequenciaEscalaRH_cadastro');
+Route::get('/escala/frequenciaEscalaRH/{id}','App\Http\Controllers\Frequencia_Controller@frequenciaEscalaRH')->name('frequenciaEscalaRH');
 Route::get('/escala/frequenciaEscalaRH/{id}/frequenciaEscalaExport','App\Http\Controllers\Frequencia_Controller@frequenciaEscalaExport')->name('frequenciaEscalaExport'); 
 
 //Troca de Plantão

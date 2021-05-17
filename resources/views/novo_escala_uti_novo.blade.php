@@ -232,13 +232,19 @@
 																   <?php $b += 1; ?>
 																  </tr> 
 																  <tr>
-																    @if($func->centro_custo == "ENFERMAGEM")
-																    <td>{{ $func->centro_custo }}</td>
-																	@else
-																	<td>{{ $func->centro_custo .$func->centro_custo_id }}</td>
-																	@endif
-																    <td hidden>
-																	 <input type="text"  style="width:350px" class="form-control" id="centro_custo_<?php echo $b ?>" name="centro_custo_<?php echo $b ?>" value="<?php echo $func->centro_custo_id; ?>" />
+																    @if($func->centro_custo_id == 1) <td><p style="width:50px"><b>UTI 01</b></p></td>  
+																	@elseif($func->centro_custo_id == 2) <td><p style="width:50px"><b>UTI 02</b></p></td> 
+																	@elseif($func->centro_custo_id == 3) <td><p style="width:50px"><b>UTI 03</b></p></td> 
+																	@elseif($func->centro_custo_id == 4) <td><p style="width:50px"><b>UTI 04</b></p></td>  
+																	@elseif($func->centro_custo_id == 5) <td><p style="width:50px"><b>UTI 05</b></p></td> 
+																	@elseif($func->centro_custo_id == 6) <td><p style="width:50px"><b>UTI 06</b></p></td> 
+																	@elseif($func->centro_custo_id == 7) <td><p style="width:50px"><b>UTI 07</b></p></td>  
+																	@elseif($func->centro_custo_id == 8) <td><p style="width:50px"><b>UTI 08</b></p></td> 
+																	@elseif($func->centro_custo_id == 9) <td><p style="width:50px"><b>UTI 09</b></p></td> 
+																	@elseif($func->centro_custo_id == 10) <td><p style="width:50px"><b>UTI 10</b></p></td>  @endif
+																	<td hidden>
+																	 <input type="text" style="width:350px" class="form-control" id="centro_custo" name="centro_custo" value="<?php echo $func->centro_custo_id; ?>" />
+																	 <input type="text" style="width:350px" class="form-control" id="centro_custo_id" name="centro_custo_id" value="<?php echo $func->centro_custo_id; ?>" />
 																	</td>
 																	<td hidden>
 																	 <input type="text" style="width:350px" class="form-control" id="funcionario_id_<?php echo $b ?>" name="funcionario_id_<?php echo $b ?>" value="<?php echo $func->id; ?>" />
