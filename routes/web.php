@@ -52,7 +52,10 @@ Route::get('/escala/excluirEscala/{id}','App\Http\Controllers\Escala_Controller@
 Route::post('/escala/excluirEscala/{id}','App\Http\Controllers\Escala_Controller@deleteEscala')->name('deleteEscala');
 //frequencia
 Route::get('/escala/frequenciaEscala/{id}','App\Http\Controllers\Frequencia_Controller@frequenciaEscala')->name('frequenciaEscala');
+Route::get('/escala/frequenciaEscala/{id}/novo/{id_escala}/dia/{dia}','App\Http\Controllers\Frequencia_Controller@frequenciaEscala_novo')->name('frequenciaEscala_novo');
+Route::post('/escala/frequenciaEscala/{id}/novo/{id_escala}/dia/{dia}','App\Http\Controllers\Frequencia_Controller@storeFrequenciaEscala_novo')->name('storeFrequenciaEscala_novo');
 Route::post('/escala/frequenciaEscala/{id}','App\Http\Controllers\Frequencia_Controller@storeFrequencia')->name('storeFrequencia');
+
 Route::get('/escala/frequenciaEscalaUTI/{id}','App\Http\Controllers\Frequencia_Controller@frequenciaEscalaUTI')->name('frequenciaEscalaUTI');
 Route::get('/escala/frequenciaEscalaUTI/{id}/novo/{id_escala}','App\Http\Controllers\Frequencia_Controller@frequenciaEscalaUTI_novo')->name('frequenciaEscalaUTI_novo');
 Route::get('/escala/frequenciaEscalaUTI/{id}/novo/{id_escala}/dia/{dia}','App\Http\Controllers\Frequencia_Controller@frequenciaEscalaUTI_novo_dia')->name('frequenciaEscalaUTI_novo_dia');

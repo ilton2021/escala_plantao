@@ -39,6 +39,110 @@ class Frequencia_Controller extends Controller
 		return view('frequencia_escala', compact('funcionarios','text','escala','funcT','idEs','funcRpa','frequencia'));
 	}
 
+	public function frequenciaEscala_novo($id, $cc, $dia)
+	{
+		$escala = Escala_Mes_Ano::where('id',$id)->get();
+		$funcionarios = Funcionario::where('centro_custo_id', $cc)->orderBy('centro_custo_id','ASC')->get();
+		$funcT 		  = Funcionario::where('centro_custo', 'UTI')->orderBy('centro_custo_id','ASC')->get();
+		$funcRpa 	  = Funcionario::where('matricula', 'RPA')->get();
+		$centro_custo = CentroCusto::all();			
+		$escala = DB::table('escala')
+		->join('funcionario','escala.funcionario_id','=','funcionario.id')
+		->where('escala.centro_custo',$cc)
+		->where('escala_id',$id)
+		->select('funcionario.*','escala.*')->get();  
+		$text = false;
+		$idEs = $id;
+		$dia  = 'dia'.$dia;
+		$frequencia = DB::table('frequencia_escala')->where('escala_id',$id)->get();
+		return view('frequencia_escala_novo_dia', compact('funcionarios','text','escala','funcT','idEs','funcRpa','frequencia','dia'));
+	}
+
+	public function storeFrequenciaEscala_novo($id, $cc, Request $request)
+	{
+		$input  = $request->all(); 
+		$cc 	= $input['centro_custo_id'];
+		$funcionarios = Funcionario::where('centro_custo_id', $cc)->orderBy('centro_custo_id','ASC')->get();
+		$funcT 		  = Funcionario::where('centro_custo_id', $cc)->orderBy('centro_custo_id','ASC')->get();
+		$funcRpa 	  = Funcionario::where('matricula', 'RPA')->get();
+		$centro_custo = CentroCusto::all();			
+		$escala = DB::table('escala')
+		->join('funcionario','escala.funcionario_id','=','funcionario.id')
+		->where('escala.centro_custo',$cc)
+		->where('escala_id',$id)
+		->select('funcionario.*','escala.*')->get(); 
+		$validator = Validator::make($request->all(), [
+			'mes' => 'required|max:255',
+			'ano' => 'required|max:255'
+		]);
+		if ($validator->fails()) {
+			$text = true;
+			return view('frequenciaEscala_novo', compact('funcionarios','text','escala','funcT'))
+				  ->withErrors($validator)
+                  ->withInput(session()->flashInput($request->input()));
+		} else {
+			$escala    = Frequencia_Escala::where('escala_id',$id)->where('centro_custo',$cc)->get();
+			$qtdEscala = sizeof($escala); 
+			$qtd1 = sizeof($funcionarios);  
+			$b = 1; 
+			$dia = substr($input['dia'], 3, 2);
+			for($a = 1; $a < $qtd1; $a++) { 
+				$input['funcionario_id'] = $input['funcionario_id_'.$a];
+					if($input['dia'.$dia.'_'.$a] == "") {
+						if($qtdEscala > 0){
+							$idE = Frequencia_Escala::where('escala_id',$id)->where('funcionario_id',$input['funcionario_id'])->get();
+							$idEs = $idE[0]->id;
+							
+							DB::update("UPDATE frequencia_escala SET dia".$dia." = ? WHERE id = ".$idEs.";", ['-']);
+						} else {
+							$escala = Frequencia_Escala::create($input);	
+						}
+				    } else {
+						if($input['dia'.$dia.'_'.$a] == "Atestado") { 
+							if($input['qtdDias_'.$a] < 10) {
+								$input['dia'.$dia] = "Atestado - 0" .$input['qtdDias_'.$a]. " - " .$input['substituto_'.$a]; 
+							} else {
+								$input['dia'.$dia] = "Atestado - " .$input['qtdDias_'.$a]. " - " .$input['substituto_'.$a]; 
+							}
+						} else if($input['dia'.$dia.'_'.$a] == "Permuta") { 
+							$input['dia'.$dia] = "Permuta - " .$input['substituto_'.$a]; 
+						} else if($input['dia'.$dia.'_'.$a] == "Falta") { 
+							if($input['tipo_func_'.$a] == "func"){ 
+								$input['dia'.$dia] = "Falta - FUNC - " .$input['substituto_'.$a]; 
+							} else if($input['tipo_func_'.$a] == "rpa"){ 
+								$input['dia'.$dia] = "Falta - RPA - " .$input['substitutorpa_'.$a]; 
+							} 
+						} else if($input['dia'.$dia.'_'.$a] == "Suspensão"){ 
+							if($input['tipo_func_'.$a] == "func"){ 
+								$input['dia'.$dia] = "Falta - FUNC - " .$input['substituto_'.$a]; 
+							} else if($input['tipo_func_'.$a] == "rpa"){ 
+								$input['dia'.$dia] = "Falta -  RPA - " .$input['substitutorpa_'.$a]; 
+							} 
+						} else if($input['dia'.$dia.'_'.$a] == "Presente"){
+							$input['dia'.$dia] = "Presente";
+						} else if($input['dia'.$dia.'_'.$a] == "Folga"){
+							$input['dia'.$dia] = "Folga";
+						} else if($input['dia'.$dia.'_'.$a] == "Desligamento"){
+							$input['dia'.$dia] = "Desligamento";
+						}
+						if($qtdEscala > 0){
+							$idE  = Frequencia_Escala::where('escala_id',$id)->where('funcionario_id',$input['funcionario_id'])->get();
+							$idEs = $idE[0]->id;
+							$t 	  = $input['dia'.$dia];
+							DB::update("UPDATE frequencia_escala SET dia".$dia." = ? WHERE id = ".$idEs.";", [$t]);
+						} else {
+							$escala = Frequencia_Escala::create($input);	
+						}
+				    }
+					$b += 1;
+			}
+			$escalas = Escala_Mes_Ano::all();
+			$text = true;
+			\Session::flash('mensagem', ['msg' => 'Frequência de Escala cadastrada com sucesso!!','class'=>'green white-text']);		
+			return view('cadastro_escala', compact('escalas','text'));
+		}
+	}
+
 	public function frequenciaEscalaUTI($id)
 	{
 		$escala = Escala_Mes_Ano::where('id',$id)->get();
