@@ -64,14 +64,9 @@ class Escala_Controller extends Controller
 	public function novaEscala($id)
 	{
 		$escala = Escala_Mes_Ano::where('id',$id)->get();
-		$cc 	= $escala[0]->centro_custo; 
-		if($cc == "ENFERMAGEM") {
-			$funcionarios = Funcionario::where('centro_custo', 'Enfermagem')->get();
-			$centro_custo = CentroCusto::all();			
-		} else { 
-			$funcionarios = Funcionario::where('centro_custo_id', 1)->orderBy('centro_custo_id','ASC')->get();
-			$centro_custo = CentroCusto::all();			
-		}
+		$cc 	= $escala[0]->centro_custo;
+		$funcionarios = Funcionario::where('centro_custo','like','%'.$cc.'%')->get();
+		$centro_custo = CentroCusto::all();			
 		return view('novo_escala', compact('funcionarios','centro_custo','escala'));
 	}
 

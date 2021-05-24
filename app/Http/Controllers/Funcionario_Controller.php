@@ -99,7 +99,7 @@ class Funcionario_Controller extends Controller
 				$input['escala'] = "";
 			} 
 			$funcionario = Funcionario::create($input);
-			$funcionario = Funcionario::all();
+			$funcionario = Funcionario::paginate(50);
 			$text = true;
 			\Session::flash('mensagem', ['msg' => 'Funcionário cadastrado com sucesso!!','class'=>'green white-text']);		
 			return view('cadastro_funcionario', compact('funcionario','text','centro_custo'));
